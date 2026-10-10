@@ -1,0 +1,55 @@
+name: update
+
+on:
+  schedule:
+    # Every 6 hours.
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Update sources.json
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: ./update.sh
+
+      - name: Detect changes
+        id: changes
+        run: |
+          if git diff --quiet -- sources.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify build
+        if: steps.changes.outputs.changed == 'true'
+        run: nix build .#helium --no-link --print-out-paths
+
+      - name: Commit and push
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          VERSION="$(sed -nE 's/.*"version": *"([^"]+)".*/\1/p' sources.json | head -1)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sources.json
+          git commit -m "helium: update to ${VERSION}"
+          git push
