@@ -1,13 +1,13 @@
 {
-  "version": "0.20.2.1",
+  "version": "0.20.3.1",
   "sources": {
     "x86_64-linux": {
-      "url": "https://github.com/imputnet/helium-linux/releases/download/0.20.2.1/helium-0.20.2.1-x86_64_linux.tar.xz",
-      "hash": "sha256-upKssn7GzaNqi5SOIVQAmq7g1jMiKtJEviXnNqFD5vo="
+      "url": "https://github.com/imputnet/helium-linux/releases/download/0.20.3.1/helium-0.20.3.1-x86_64_linux.tar.xz",
+      "hash": "sha256-N1nqTpW/TvSgpkd+PXNXaw8DkG8ugDVydb/Gysr7X6w="
     },
     "aarch64-linux": {
-      "url": "https://github.com/imputnet/helium-linux/releases/download/0.20.2.1/helium-0.20.2.1-arm64_linux.tar.xz",
-      "hash": "sha256-x6tF6ElhqgESQErE7yvj2oLRucivYLhVVzmBIvp8vGY="
+      "url": "https://github.com/imputnet/helium-linux/releases/download/0.20.3.1/helium-0.20.3.1-arm64_linux.tar.xz",
+      "hash": "sha256-9C/oUbJuFgTHc5lGOWhAmtaJUqOhgIeX42EYmzGk6gg="
     }
   }
 }
